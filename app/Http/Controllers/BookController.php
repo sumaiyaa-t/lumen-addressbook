@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Book;
-
+use Auth;
 class BookController extends Controller
 {
     public function index()
     {
-        $books = Book::all();
+//        $books = Book::all();
+        $books = Auth::user()->book()->get();
         return \response()->json([
             'data' => $books,
             'status' => Response::HTTP_OK
@@ -19,15 +20,22 @@ class BookController extends Controller
 
     public function store(Request $request)
     {
-        $inputs = [];
-        $inputs['contact_name'] = \request('contact_name');
-        $inputs['phone'] = \request('phone');
-        $inputs['address'] = \request('address');
-        $book = Book::create($inputs);
-        return \response()->json([
-            'data' => $book,
-            'status' => Response::HTTP_OK
+
+        $this->validate($request, [
+            'contact_name' => 'required',
+            'phone' => 'required',
+            'address' => 'required'
         ]);
+        if(Auth::user()->book()->create($request->all())){
+            return response()->json([
+                'status' => 'success'
+            ]);
+        }else{
+            return response()->json([
+                'status' => 'fail'
+            ]);
+        }
+
     }
 
     public function show($id)

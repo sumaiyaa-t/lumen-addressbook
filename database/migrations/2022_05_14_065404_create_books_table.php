@@ -15,7 +15,7 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->integer('contact_id')->nullable();
+            $table->integer('user_id');
             $table->string('contact_name');
             $table->string('phone');
             $table->text('address');
