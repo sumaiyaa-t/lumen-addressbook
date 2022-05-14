@@ -20,8 +20,8 @@ $router->get('/', function () use ($router) {
  * UNAUTHENTICATED ROUTES
  *
  */
-$router->post( '/login', 'AuthController@login');
-$router->post( '/register', 'AuthController@register' );
+$router->post('/login', 'AuthController@login');
+$router->post('/register', 'AuthController@register');
 /*
  *
  * AUTHENTICATED ROUTES
@@ -30,8 +30,14 @@ $router->post( '/register', 'AuthController@register' );
 $router->group(
     [
         'middleware' => 'auth',
-    ], function( $router ) {
-    $router->post( '/logout', 'AuthController@logout' );
-    $router->get( '/refresh', 'AuthController@refresh' );
-    $router->post( '/refresh', 'AuthController@refresh' );
+    ], function ($router) {
+    $router->post('/logout', 'AuthController@logout');
+    $router->get('/refresh', 'AuthController@refresh');
+    $router->post('/refresh', 'AuthController@refresh');
 });
+
+$router->get('book', 'BookController@index');
+$router->post('book/create', 'BookController@store');
+$router->get('book/{id}', 'BookController@show');
+$router->put('book/{id}/update', 'BookController@update');
+$router->delete('book/{id}/delete', 'BookController@delete');
