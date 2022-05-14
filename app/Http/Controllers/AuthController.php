@@ -99,5 +99,9 @@ class AuthController extends Controller
         ], 200);
     }
 
+    public function index(){
+        return auth()->user();
+    }
+
 
 }

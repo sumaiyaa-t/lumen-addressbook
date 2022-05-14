@@ -11,9 +11,9 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+//$router->get('/', function () use ($router) {
+//    return $router->app->version();
+//});
 
 /*
  *
@@ -29,8 +29,15 @@ $router->post('/register', 'AuthController@register');
  */
 $router->group(
     [
-        'middleware' => 'auth',
+        'middleware' => 'auth', 'cors',
     ], function ($router) {
+
+    $router->get('/', function () {
+        return response()->json([
+            "data" => "test",
+            "status" => Response::HTTP_ACCEPTED
+        ]);
+    });
     $router->post('/logout', 'AuthController@logout');
     $router->get('/refresh', 'AuthController@refresh');
     $router->post('/refresh', 'AuthController@refresh');
@@ -41,6 +48,8 @@ $router->group(
     $router->get('book/{id}', 'BookController@show');
     $router->put('book/{id}/update', 'BookController@update');
     $router->delete('book/{id}/delete', 'BookController@delete');
+
+    $router->get('/index','AuthController@index');
 });
 
 
