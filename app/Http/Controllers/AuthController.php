@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class AuthController extends Controller
 {
@@ -60,7 +61,7 @@ class AuthController extends Controller
             // Login has failed
             return response()->json(['message' => 'Unauthorized'], 401);
         }
-        return $this->respondWithToken($token);
+           return $this->respondWithToken($token)->withCookie(new Cookie('auth_token_key', $token));
     }
 
     /*
@@ -72,7 +73,7 @@ class AuthController extends Controller
     public function logout()
     {
         auth()->logout();
-        return response()->json(['message' => 'User successfully signed out']);
+        return response()->json(['message' => 'User successfully signed out'])->withCookie(new Cookie('auth_token_key', null));
     }
 
     /*
@@ -80,10 +81,14 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function refresh()
-    {
-        return $this->respondWithToken(auth()->refresh());
-    }
+
+
+
+    // public function refresh()
+    // {
+    //     return $this->respondWithToken(auth()->refresh());
+    // }
+
 
     /*
      * Helper function to format the response with the token.
@@ -95,13 +100,12 @@ class AuthController extends Controller
         return response()->json([
             'token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => Auth::factory()->getTTL() * 60
+            'expires_in' => Auth::factory()->getTTL() * 300
         ], 200);
     }
 
-    public function index(){
+    public function index(Request $request){
         return auth()->user();
     }
-
 
 }

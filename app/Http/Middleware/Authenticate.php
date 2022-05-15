@@ -35,10 +35,12 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if ($this->auth->guard($guard)->guest()) {
+
+        if($request->cookie('auth_token_key') !== null){
+            $request->headers->set('Authorization','bearer '. $request->cookie('auth_token_key'));
+            return $next($request);
+        }else{
             return response('Unauthorized.', 401);
         }
-
-        return $next($request);
     }
 }

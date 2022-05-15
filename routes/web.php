@@ -39,8 +39,8 @@ $router->group(
         ]);
     });
     $router->post('/logout', 'AuthController@logout');
-    $router->get('/refresh', 'AuthController@refresh');
-    $router->post('/refresh', 'AuthController@refresh');
+    // $router->get('/refresh', 'AuthController@refresh');
+    // $router->post('/refresh', 'AuthController@refresh');
     $router->get('profile', 'AuthController@profile');
 
     $router->get('book', 'BookController@index');
