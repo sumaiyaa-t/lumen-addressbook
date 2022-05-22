@@ -95,10 +95,13 @@ $app->configure('app');
 //$app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 //$app->register(App\Providers\EventServiceProvider::class);
+
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Chuckrincon\LumenConfigDiscover\DiscoverServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(App\Providers\CatchAllOptionsRequestsProvider::class);
+
+
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
@@ -117,3 +120,6 @@ $app->router->group([
 });
 
 return $app;
+
+
+
